@@ -32,7 +32,14 @@ function App() {
   const handleLogin = async () => {
     if (!username) return;
     // chama backend para criar ou recuperar usuário
-    await axios.post('http://localhost:3001/users/login', { "username": username });
+    const BASE_URL = 'https://backend-04cn.onrender.com';
+
+    try {
+      const response = await axios.post(`${BASE_URL}/users/login`, { username });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
     setLoggedIn(true);
     socket.emit('login', { username });
   };
