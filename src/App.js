@@ -52,37 +52,63 @@ function App() {
 
   if (!loggedIn) {
     return (
-      <div style={{ padding: '20px' }}>
-        <h1>Login</h1>
+      <div className='flex flex-col items-center h-[100vh] justify-center bg-[#264048] text-[#A7FFFF] font-bold'>
+        <h1 className='text-3xl font-bold m-5'>Login</h1>
         <input
           placeholder="Seu nome"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && handleLogin()}
+          className='bg-[#1A2B30] p-1 rounded-md'
         />
-        <button onClick={handleLogin}>Entrar</button>
+        <button onClick={handleLogin} className='m-5 pl-10 pr-10 pt-1 pb-1 bg-[#1A2B30] hover:bg-[#375E6A] rounded-md'>Entrar</button>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px' }}>
-      <h1>Chat Online</h1>
+    <div className='flex flex-col items-center h-[100vh] justify-center bg-[#264048] font-bold text-[#A7FFFF]'>
+      <h1  className='text-3xl font-bold m-5'>Chat Online</h1>
 
-      <div style={{ marginTop: '20px', marginBottom: '20px' }}>
+      <div className='p-4 w-[50%]'>
         {messages.map((msg, idx) => (
-          <div key={idx}>
-            <b>{msg.user}:</b> {msg.content}
+          <div className='flex flex-row'key={idx}>
+            {msg.user === "Sistema" ? (
+              <div className='flex w-[100%] justify-center '>
+                <p className='text-[#ff5151] mr-2'>
+                  {msg.user}:
+                </p>
+                <p>
+                  {msg.content}
+                </p>
+              </div>
+            ):
+            (msg.user === username) ? (
+              <div className='flex flex-row-reverse w-[100%]'>
+                <p className='text-[#21FF30] w-[75%]'>
+                  {msg.content}
+                </p>
+              </div>
+            ):(
+              <div className='flex flex-row'>
+                <p className='text-[#FFB7B4] mr-2'>{msg.user}:</p>
+                <p className='w-[75%]'>{msg.content}</p>
+              </div>
+            )
+            }
           </div>
         ))}
       </div>
-
-      <input
-        placeholder="Mensagem"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
-      />
-      <button onClick={sendMessage}>Enviar</button>
+      <div>
+        <input
+          placeholder="Mensagem"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+          className='bg-[#1A2B30] p-1 rounded-md text-[#A7FFFF] m-5'
+        />
+        <button onClick={sendMessage} className='m-5 pl-10 pr-10 pt-1 pb-1 bg-[#1A2B30] hover:bg-[#375E6A] rounded-md text-[#A7FFFF]'>{">"}</button>
+      </div>
     </div>
   );
 }
