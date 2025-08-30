@@ -85,14 +85,14 @@ function App() {
             ):
             (msg.user === username) ? (
               <div className='flex flex-row-reverse w-[100%]'>
-                <p className='text-[#21FF30] w-[75%]'>
+                <p className='text-[#21FF30] max-w-[75%]  break-words'>
                   {msg.content}
                 </p>
               </div>
             ):(
               <div className='flex flex-row'>
                 <p className='text-[#FFB7B4] mr-2'>{msg.user}:</p>
-                <p className='w-[75%]'>{msg.content}</p>
+                <p className='max-w-[75%]  break-words'>{msg.content}</p>
               </div>
             )
             }
