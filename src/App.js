@@ -36,6 +36,17 @@ function App() {
       socket.off('user_left');
     };
   }, []);
+  // Verificar inatividade
+  useEffect(() => {
+    if (!loggedIn) return;
+
+    const interval = setInterval(() => {
+      socket.emit('heartbeat', username);
+    }, 10000); // a cada 10s
+
+    return () => clearInterval(interval);
+  }, [loggedIn, username]);
+
 
   // Atualizar lista de online sempre que mensagens mudarem
   useEffect(() => {
