@@ -64,10 +64,12 @@ function App() {
 
   const handleLogin = async () => {
     if (!username) return;
-    const BASE_URL = 'https://backend-04cn.onrender.com';
+    const BASE_URL = "https://backend-04cn.onrender.com";
 
     try {
       await axios.post(`${BASE_URL}/users/login`, { username });
+      const res = await axios.get(`${BASE_URL}/users/online`);
+      setOnline(res.data.map(user => user.username));
     } catch (error) {
       console.error(error);
     }
@@ -156,7 +158,7 @@ function App() {
 
       <h1 className="text-3xl font-bold m-5">Chat Online</h1>
 
-      <div className="p-4 flex flex-col border w-[80%] sm:w-[50%]">
+      <div className="p-4 flex flex-col bg-[#1A2B30] border-[#375E6A] border w-[80%] sm:w-[50%] min-h-[50vh]">
         {messages.map((msg, idx) => (
           <div className="flex justify-center" key={idx}>
             {msg.user === 'Sistema' ? (
@@ -166,14 +168,16 @@ function App() {
               </div>
             ) : msg.user === username ? (
               <div className="flex flex-row-reverse w-[100%]">
-                <p className="text-[#21FF30] max-w-[75%] break-words">
+                <p className="text-[#21FF30] max-w-[75%] break-words bg-[#375E6A] min-w-[35%] text-end mb-2 rounded-2xl px-3 py-1">
                   {msg.content}
                 </p>
               </div>
             ) : (
               <div className="flex flex-row w-[100%]">
-                <p className="text-[#FFB7B4] mr-2">{msg.user}:</p>
-                <p className="max-w-[75%] break-words">{msg.content}</p>
+                <div className='flex flex-row bg-[#264048] max-w-[75%] min-w-[35%] mb-2  rounded-2xl px-3 py-1'>
+                  <p className="text-[#FFB7B4] mr-2">{msg.user}:</p>
+                  <p className="max-w-[75%] break-words ">{msg.content}</p>
+                </div>  
               </div>
             )}
           </div>
