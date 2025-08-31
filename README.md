@@ -1,70 +1,132 @@
-# Getting Started with Create React App
+---
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Chat Online Project
 
-## Available Scripts
+Projeto completo de Chat Online com frontend e backend separados, utilizando **React**, **TailwindCSS**, **NestJS**, **PostgreSQL** e **WebSocket**.
 
-In the project directory, you can run:
+---
 
-### `npm start`
+## Estrutura do Projeto
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```
+chat-project/
+├── backend/  # NestJS + PostgreSQL + WebSocket
+└── frontend/ # React + TailwindCSS + Axios + WebSocket
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Backend
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Tecnologias
 
-### `npm run build`
+* NestJS
+* TypeORM
+* PostgreSQL
+* WebSocket (Socket.IO)
+* dotenv
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Instalação
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+git clone https://github.com/devjaum/backend.git
+cd chat-project/backend
+npm install
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Configuração (.env)
 
-### `npm run eject`
+```
+DB_HOST=localhost ou host do Render
+DB_PORT=5432
+DB_USER=usuario
+DB_PASSWORD=senha
+DB_NAME=nome_do_banco
+PORT=3001
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Rodando localmente
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm run start:dev
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+O backend estará rodando em `http://localhost:3001`.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Deploy no Render
 
-## Learn More
+1. Crie um Web Service no Render apontando para o backend.
+2. Configure as **Environment Variables** com as mesmas do `.env`.
+3. Render cuidará da porta automaticamente.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Endpoints
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+* `POST /users/login` - login ou cadastro de usuário
+* `GET /messages` - listar mensagens
+* WebSocket: envia e recebe mensagens em tempo real
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Frontend
 
-### Analyzing the Bundle Size
+### Tecnologias
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+* React
+* TailwindCSS
+* Axios
+* Socket.IO (WebSocket)
 
-### Making a Progressive Web App
+### Instalação
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+```bash
+git clone https://github.com/devjaum/frontend.git
+cd chat-project/frontend
+npm install
+```
 
-### Advanced Configuration
+### Configuração (.env)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+```
+REACT_APP_BACKEND_URL=https://backend-04cn.onrender.com
+```
 
-### Deployment
+> Todas as variáveis precisam começar com `REACT_APP_` no React.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Rodando localmente
 
-### `npm run build` fails to minify
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Frontend disponível em `http://localhost:3000`.
+
+### Build para produção
+
+```bash
+npm run build
+```
+
+* A pasta `build/` será gerada pronta para deploy.
+
+### Deploy no Render
+
+1. Crie um Web Service apontando para o frontend.
+2. Configure **Environment Variable**:
+
+```
+REACT_APP_BACKEND_URL=https://backend-04cn.onrender.com
+```
+
+3. Configure os comandos:
+
+* Build: `npm install && npm run build`
+* Start: `npx serve -s build`
+
+---
+
+## Observações
+
+* Certifique-se de que o backend esteja online antes de rodar o frontend.
+* Para testes locais, ajuste `REACT_APP_BACKEND_URL` para `http://localhost:3001`.
+* `synchronize: true` no TypeORM cria tabelas automaticamente, útil para testes.
+* Para produção, é recomendado usar migrations no backend para maior segurança.
