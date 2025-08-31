@@ -12,9 +12,8 @@ function ChatApp() {
   const [online, setOnline] = useState([]);
   const [showOnline, setShowOnline] = useState(false);
 
-  const BASE_URL = "http://localhost:3001"; // <- ajuste se for backend deployado
+  const BASE_URL = "https://backend-04cn.onrender.com";
 
-  // Receber mensagens
   useEffect(() => {
     socket.on("receive_message", (data) => {
       setMessages((prev) => [...prev, data]);
@@ -41,7 +40,6 @@ function ChatApp() {
     };
   }, []);
 
-  // Heartbeat
   useEffect(() => {
     if (!loggedIn) return;
 
@@ -52,7 +50,6 @@ function ChatApp() {
     return () => clearInterval(interval);
   }, [loggedIn, username]);
 
-  // Atualizar lista de online
   useEffect(() => {
     if (messages.length === 0) return;
 
@@ -76,7 +73,6 @@ function ChatApp() {
     }
   }, [messages]);
 
-  // Login normal
   const handleLogin = async () => {
     if (!username || !password) return;
 
@@ -94,7 +90,6 @@ function ChatApp() {
     }
   };
 
-  // Registro
   const handleRegister = async () => {
     if (!username || !password) return;
     let email = username;
@@ -110,7 +105,6 @@ function ChatApp() {
     }
   };
 
-  // Login com Google
   const handleGoogleLogin = async (credentialResponse) => {
     try {
       const res = await axios.post(`${BASE_URL}/auth/google-login`, {
@@ -131,7 +125,6 @@ function ChatApp() {
     setMessage("");
   };
 
-  // formatação mensagem sistema
   const sistemChat = (content) => {
     const regex = /^(.+?) (entrou|saiu) (no|do) chat$/;
     const match = content.match(regex);
