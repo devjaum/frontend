@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import socket from "./socket";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+
 
 function ChatApp() {
   const [username, setUsername] = useState("");
@@ -12,7 +12,7 @@ function ChatApp() {
   const [online, setOnline] = useState([]);
   const [showOnline, setShowOnline] = useState(false);
 
-  const BASE_URL = "https://backend-04cn.onrender.com";
+  const BASE_URL = "http://localhost:3001";
 
   useEffect(() => {
     socket.on("receive_message", (data) => {
@@ -105,19 +105,7 @@ function ChatApp() {
     }
   };
 
-  const handleGoogleLogin = async (credentialResponse) => {
-    try {
-      const res = await axios.post(`${BASE_URL}/auth/google-login`, {
-        token: credentialResponse.credential,
-      });
-      setUsername(res.data.username);
-      setLoggedIn(true);
-      socket.emit("login", { username: res.data.username });
-    } catch (err) {
-      console.error(err);
-      alert("Erro no login com Google");
-    }
-  };
+
 
   const sendMessage = () => {
     if (!message) return;
@@ -155,7 +143,6 @@ function ChatApp() {
 
   if (!loggedIn) {
     return (
-      <GoogleOAuthProvider clientId="SUA_GOOGLE_CLIENT_ID">
         <div className="flex flex-col items-center h-[100vh] justify-center bg-[#264048] text-[#A7FFFF] font-bold">
           <h1 className="text-3xl font-bold m-5">Login</h1>
 
@@ -187,15 +174,7 @@ function ChatApp() {
               Registrar
             </button>
           </div>
-
-          <div className="mt-4">
-            <GoogleLogin
-              onSuccess={handleGoogleLogin}
-              onError={() => alert("Erro ao logar com Google")}
-            />
-          </div>
         </div>
-      </GoogleOAuthProvider>
     );
   }
 
